@@ -1,8 +1,8 @@
 //**************************************************************************** 
-//*  ��    �ƣ� checkRepeat.
-//*  ��    ���� ����ĳ��ַ�Ƿ���ڵĿ���̨����
-//*  ������ƣ� ��    ��
-//*  ��    �ڣ� 2013/7/16 14:48:39
+//*  名    称： checkRepeat.
+//*  描    述： 测试某网址是否存在的控制台程序
+//*  程序设计： 刘    杰
+//*  日    期： 2013/7/16 14:48:39
 //******************************************************************************* 
 
 
@@ -12,8 +12,8 @@
 
 using namespace std;
 
-//��ʼ��λͼ����12λ����ʾ������������20λ����ʾλͼ�ڲ�λ����
-bitset< 1 << 20 >  * map = new bitset< 1 << 20 >[ 1 << 12 ]();
+//初始化位图，用12位来表示数组索引，用20位来表示位图内部位索引
+bitset< 1 << 20 >  * map = new bitset< 1 <<20 >[ 1 << 12 ]();
 
 int charToInt(char input)
 {
@@ -33,14 +33,14 @@ int main()
 	while(1)
 	{
 		MD5 md5;
-		cout << endl << "��������ַ��";
+		cout << endl << "请输入网址：";
 		cin >> inputStr;
 		md5.update(inputStr);
 		md5_32 = md5.toString();
 		unsigned int indexInt[8] = {};
-		cout << "���ܺ���ַ���Ϊ��" << endl;
+		cout << "加密后的字符串为：" << endl;
 		
-		//���ַ�ת��Ϊʮ���ƣ�����indeInt����
+		//将字符转换为十进制，存入indeInt数组
 		for(int i = 0 ; i < 8 ; i++)
 		{
 			cout << md5_32[i] << "(";
@@ -48,12 +48,12 @@ int main()
 			cout << indexInt[i] << ")  ";
 		}
 
-		//��indexInt�� 0 ��1 ��2 ����map����������
+		//用indexInt的 0 ，1 ，2 构建map的数组索引
 		indexInt[0] <<= 8;
 		indexInt[1] <<= 4;
 		unsigned int arrayIndex = indexInt[0] + indexInt[1] + indexInt[2];
 
-		//��indexInt�� 3 �� 4 �� 5 �� 6 ��7 ����map��λͼ�ڲ�����
+		//用indexInt的 3 ， 4 ， 5 ， 6 ，7 构建map的位图内部索引
 		indexInt[3] <<= 16;
 		indexInt[4] <<= 12;
 		indexInt[5] <<= 8;
@@ -61,7 +61,7 @@ int main()
 		unsigned int bitIndex = indexInt[3] + indexInt[4] + indexInt[5] + indexInt[6] + indexInt[7];
 		
 		if(map[arrayIndex].at(bitIndex))
-			cout << endl << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!�Ѿ����ڣ�����Ϊ��map[" << arrayIndex << "]" << ".at(" << bitIndex << ")" << endl; 
+			cout << endl << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!已经存在，索引为：map[" << arrayIndex << "]" << ".at(" << bitIndex << ")" << endl; 
 		else
 			map[arrayIndex].set(bitIndex);
 
@@ -69,3 +69,4 @@ int main()
 	}
 
 }
+
